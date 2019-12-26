@@ -22,3 +22,11 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+| title | contetnt |
+| --- | --- |
+|  |  |
+
+
+t.string "title"
+t.text "content"
