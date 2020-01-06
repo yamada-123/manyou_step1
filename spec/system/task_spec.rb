@@ -7,9 +7,7 @@ RSpec.describe 'タスク管理機能', type: :system do
     # binding.pry
   end
  
- 
- 
-  describe 'タスク一覧画面' do   
+   describe 'タスク一覧画面' do   
     context 'タスクを作成した場合' do
       it '作成済みのタスクが表示されること'  do
         visit tasks_path
