@@ -25,7 +25,7 @@ Things you may want to cover:
 
 | title | contetnt |
 | --- | --- |
-|  |  |
+| test | test |
 
 
 t.string "title"
