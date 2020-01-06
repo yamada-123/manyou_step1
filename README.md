@@ -1,9 +1,10 @@
 # テーブル管理
 
 Taskテーブル
-| title | content |
-| --- | --- |
-|string | text |
+
+|  | title | content |
+| --- | --- | --- |
+| データ型 | string | text |
 
 
 # herokuにデプロイする方法
