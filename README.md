@@ -1,4 +1,4 @@
-# テーブ管理
+# テーブル管理
 
 Taskテーブル
 | title | content |
@@ -6,15 +6,15 @@ Taskテーブル
 |string | text |
 
 
-#herokuにデプロイする方法
-##1 herokuのアプリケーションを作成する　
+# herokuにデプロイする方法
+## 1 herokuのアプリケーションを作成する　
 $ heroku create
 
-##2 herokuにデプロイする
+## 2 herokuにデプロイする
 $ git push heroku master
 
-##3 データベース移行
+## 3 データベース移行
 $ run rails  db:migrate
 
-##4 アプリケーションを開く
+## 4 アプリケーションを開く
 $ heroku open
