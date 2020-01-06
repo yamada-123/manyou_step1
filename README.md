@@ -1,9 +1,9 @@
 # テーブ管理
 
 Taskテーブル
-|  | title | content |
-| --- | --- | --- |
-| データ型 | string | text |
+| title | content |
+| --- | --- |
+ string | text |
 
 
 #herokuにデプロイする方法
