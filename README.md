@@ -3,7 +3,7 @@
 Taskテーブル
 | title | content |
 | --- | --- |
- string | text |
+|string | text |
 
 
 #herokuにデプロイする方法
