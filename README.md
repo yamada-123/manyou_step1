@@ -1,6 +1,6 @@
 # テーブ管理
 
 Taskテーブル
-| title | contetnt |
-| --- | --- |
-| string | text |
+|  | title | content |
+| --- | --- | --- |
+| データ型 | string | text |
