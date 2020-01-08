@@ -4,6 +4,7 @@ RSpec.describe 'タスク管理機能', type: :system do
   before do
     @task = FactoryBot.create(:task)
     @task2 = FactoryBot.create(:second_task)
+    @task3 = FactoryBot.create(:third_task)
   end
  
    describe 'タスク一覧画面' do   
@@ -22,8 +23,8 @@ RSpec.describe 'タスク管理機能', type: :system do
         task_list = all('.task_row')  #タスク一覧を配列として取得するためview側でidを振っておく
         #indexviewにあるクラス
         save_and_open_page
-        expect(task_list[0]).to have_content @task2.title
-        expect(task_list[1]).to have_content @task.title
+        expect(task_list[1]).to have_content @task2.title
+        expect(task_list[2]).to have_content @task.title
       end
     end
     context '終了期限のソートボタンを押した場合' do
@@ -35,6 +36,27 @@ RSpec.describe 'タスク管理機能', type: :system do
         #binding.pry
         expect(page).to have_content @task.title && @task.content && @task.deadline
         expect(page).not_to have_content @task2.title && @task2.content && @task2.deadline
+      end
+    end
+    context 'タイトルが空および、状態が未着手で検索ボタンを押した場合' do
+      it '状態が未着手のデータだけ表示されているようにすること' do
+        visit tasks_path
+        #binding.pry
+        task_title = "Factoryで作ったタイトル1"
+        task_status = "未着手"
+        #binding.pry
+        click_on '検索'
+        binding.pry
+        expect(page).to have_content @task.title && @task.content && @task.deadline && @task.status
+      end
+    end
+    context '優先度を高い順にソートするボタンを押した場合' do
+      it '上から高→中→低の順に表示されるようにすること' do
+        visit tasks_path
+        #binding.pry
+        click_on '優先度を高い順にソートする'
+        #binding.pry
+        
       end
     end
   end

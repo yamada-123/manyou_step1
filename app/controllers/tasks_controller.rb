@@ -3,11 +3,20 @@ class TasksController < ApplicationController
 
   def index
     @tasks = Task.all.order(created_at: :desc)
-   if params[:sort_expired]
+  
+    if params[:sort_expired]
     @tasks = Task.all.order('deadline DESC')
    end
+   if params[:task]
     #binding.pry
-  end
+    if params[:task][:search]#検索フォーム or 検索フォーム以外のリンクから送られてきたものなのかの判断をする。
+      @tasks = Task.where(['title LIKE ? AND status LIKE ?', "%#{params[:task][:title]}%", "%#{params[:task][:status]}%"] )
+    end
+   end
+   if params[:sort_expired2]
+    @tasks = Task.all.order('priority desc')
+   end
+ end
 
   def new
     @task = Task.new
@@ -48,7 +57,7 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:title, :content, :deadline)
+    params.require(:task).permit(:title, :content, :deadline, :status, :priority)
   end
 
   def set_task
