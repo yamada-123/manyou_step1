@@ -15,7 +15,7 @@ class TasksController < ApplicationController
     #   @tasks = Kaminari.paginate_array(@tasks).page(params[:page]).per(3)
     # end
     #binding.pry
-    #binding.pry
+    #binding.prya
    
       if params[:sort_expired]
         @tasks = Task.all.order('deadline desc').page(params[:page])
