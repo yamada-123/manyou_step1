@@ -19,4 +19,6 @@ RSpec.describe Task, type: :model do
     #binding.pry
     expect(task).to be_valid
   end
+
+  
 end

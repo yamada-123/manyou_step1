@@ -2,12 +2,25 @@
 
 <p><%= notice %></p>
 
+<%= form_with(model: Task.new, method: :get, url: tasks_path, local: true) do |f| %>
+  <%= f.label :title_search, "タイトル検索" %>
+  <%= f.text_field :title, class: 'form-control' %>
+
+  <%= f.label :status_search, "状態検索" %>
+  <%= f.select :status, options_for_select([["",""],["未着手","未着手"],["着手中", "着手中"],["完了","完了"]])  %>
+
+  <%= f.hidden_field :search, value: 'true' %>
+  <%= submit_tag "検索" %>
+  <% end %>
+
 <table>
   <tr>
     <th>ID</th>
     <th>タイトル</th>
     <th>内容</th>
     <th>締め切り</th>
+    <th>ステータス</th>
+    <th>優先度</th>
   </tr> 
 
 <% @tasks.each do |task| %>
@@ -16,6 +29,8 @@
     <td><%= task.title %></td>
     <td><%= task.content %></td>
     <td><%= task.deadline %></td>
+    <td><%= task.status %></td>
+    <td><%= display_priority(task.priority) %></td>
 
     <td><%= link_to '詳細を確認する', task_path(task.id), id: "task-show-#{task.id}" %></td>
     <td><%= link_to 'タスクを編集する', edit_task_path(task.id) %></td>
@@ -28,3 +43,4 @@
 
 <%= link_to '新しくタスクを登録する', new_task_path %>
 <%= link_to "終了期限でソートする",tasks_path(sort_expired: "true")%>
+<%= link_to "優先度を高い順にソートする",tasks_path(sort_expired2: "true")%>
