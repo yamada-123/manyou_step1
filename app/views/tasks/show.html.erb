@@ -3,4 +3,4 @@
 <p>内容: <%= @task.content %></p>
 <p>締め切り: <%= @task.deadline %></p>
 <p>ステータス: <%= @task.status%></p>
-<P>優先度: <%= @task.priority%></p>
+<P>優先度: <%= display_priority(@task.priority)%></p>
