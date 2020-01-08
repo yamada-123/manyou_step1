@@ -15,17 +15,19 @@ class TasksController < ApplicationController
     #   @tasks = Kaminari.paginate_array(@tasks).page(params[:page]).per(3)
     # end
     #binding.pry
-    #binding.pry
-    if params[:task]
-    if params[:sort_expired]
-      @tasks = Task.all.order('deadline DESC')
-     end
-      if params[:task][:search]#検索フォーム or 検索フォーム以外のリンクから送られてきたものなのかの判断をする。
-        @tasks = Task.where(['title LIKE ? AND status LIKE ?', "%#{params[:task][:title]}%", "%#{params[:task][:status]}%"] )
+    #binding.prya
+   
+      if params[:sort_expired]
+        @tasks = Task.all.order('deadline desc').page(params[:page])
       end
-     end
+      if params[:task]
+        if params[:task][:search]#検索フォーム or 検索フーム以外のリンクから送られてきたものなのかの判断をする。
+          @tasks = Task.where(['title LIKE ? AND status LIKE ?', "%#{params[:task][:title]}%", "%#{params[:task][:status]}%"] )
+        end
+      end
+
     if params[:sort_expired2]
-      @tasks = Task.all.order('priority desc')
+      @tasks = Task.all.order('priority desc').page(params[:page])
     end
   end
 
