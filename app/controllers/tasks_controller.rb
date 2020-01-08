@@ -1,22 +1,33 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
-
+  
   def index
     @tasks = Task.all.order(created_at: :desc)
-  
-    if params[:sort_expired]
-    @tasks = Task.all.order('deadline DESC')
-   end
-   if params[:task]
+    #@articles = Kaminari.paginate_array(@tasks).page(params[:page]).per(3)
+    @tasks = Task.all.page(params[:page])
+    # if params[:page] == "1"
+    #@tasks = Kaminari.paginate_array(@tasks).page(params[:page]).per(3)
+    # end
+    # f params[:page] == "2"
+    #   @tasks = Kaminari.paginate_array(@tasks).page(params[:page]).per(3)
+    # end
+    # if params[:page] == "3"
+    #   @tasks = Kaminari.paginate_array(@tasks).page(params[:page]).per(3)
+    # end
     #binding.pry
-    if params[:task][:search]#検索フォーム or 検索フォーム以外のリンクから送られてきたものなのかの判断をする。
-      @tasks = Task.where(['title LIKE ? AND status LIKE ?', "%#{params[:task][:title]}%", "%#{params[:task][:status]}%"] )
+    #binding.pry
+    if params[:task]
+    if params[:sort_expired]
+      @tasks = Task.all.order('deadline DESC')
+     end
+      if params[:task][:search]#検索フォーム or 検索フォーム以外のリンクから送られてきたものなのかの判断をする。
+        @tasks = Task.where(['title LIKE ? AND status LIKE ?', "%#{params[:task][:title]}%", "%#{params[:task][:status]}%"] )
+      end
+     end
+    if params[:sort_expired2]
+      @tasks = Task.all.order('priority desc')
     end
-   end
-   if params[:sort_expired2]
-    @tasks = Task.all.order('priority desc')
-   end
- end
+  end
 
   def new
     @task = Task.new
