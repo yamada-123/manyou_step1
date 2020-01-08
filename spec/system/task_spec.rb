@@ -20,6 +20,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         #new_task = FactoryBot.create(:task, title: 'new_task')
         visit tasks_path
         #binding.pry
+        #binding.pry
         task_list = all('.task_row')  #タスク一覧を配列として取得するためview側でidを振っておく
         #indexviewにあるクラス
         save_and_open_page
@@ -41,13 +42,17 @@ RSpec.describe 'タスク管理機能', type: :system do
     context 'タイトルが空および、状態が未着手で検索ボタンを押した場合' do
       it '状態が未着手のデータだけ表示されているようにすること' do
         visit tasks_path
-        #binding.pry
+        binding.pry
         task_title = "Factoryで作ったタイトル1"
+        task_content = "Factoryで作ったコンテント1"
+        task_deadline = "2019-07-10"
         task_status = "未着手"
+        priority = "1"
         #binding.pry
         click_on '検索'
-        binding.pry
-        expect(page).to have_content @task.title && @task.content && @task.deadline && @task.status
+        #binding.pry
+        #binding.pry
+        expect(page).to have_content @task.title && @task.content && @task.deadline && @task.status && @task.priority
       end
     end
     context '優先度を高い順にソートするボタンを押した場合' do

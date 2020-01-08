@@ -2,10 +2,9 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   
   def index
-    @tasks = Task.all.order(created_at: :desc)
     #@articles = Kaminari.paginate_array(@tasks).page(params[:page]).per(3)
-    @tasks = Task.all.page(params[:page])
     # if params[:page] == "1"
+    @tasks = Task.all.order(created_at: :desc).page(params[:page])
     #@tasks = Kaminari.paginate_array(@tasks).page(params[:page]).per(3)
     # end
     # f params[:page] == "2"
@@ -22,7 +21,7 @@ class TasksController < ApplicationController
       end
       if params[:task]
         if params[:task][:search]#検索フォーム or 検索フーム以外のリンクから送られてきたものなのかの判断をする。
-          @tasks = Task.where(['title LIKE ? AND status LIKE ?', "%#{params[:task][:title]}%", "%#{params[:task][:status]}%"] )
+          @tasks = Task.where(['title LIKE ? AND status LIKE ?', "%#{params[:task][:title]}%", "%#{params[:task][:status]}%"] ).page(params[:page])
         end
       end
 
