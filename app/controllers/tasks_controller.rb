@@ -21,7 +21,7 @@ class TasksController < ApplicationController
         @tasks = Task.all.order('deadline desc').page(params[:page])
       end
       if params[:task]
-        if params[:task][:search]#検索フォーム or 検索フォーム以外のリンクから送られてきたものなのかの判断をする。
+        if params[:task][:search]#検索フォーム or 検索フーム以外のリンクから送られてきたものなのかの判断をする。
           @tasks = Task.where(['title LIKE ? AND status LIKE ?', "%#{params[:task][:title]}%", "%#{params[:task][:status]}%"] )
         end
       end
