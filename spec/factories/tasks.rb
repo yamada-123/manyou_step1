@@ -5,6 +5,7 @@ FactoryBot.define do
     deadline {'2019-07-10'}
     status {'未着手'}
     priority {'1'}
+    user_id {'28'}
   end
 
   factory :second_task, class: Task do
@@ -13,6 +14,7 @@ FactoryBot.define do
     deadline {'2019-06-10'}
     status {'完了'}
     priority {'3'}
+    user_id {'28'}
   end
 
   factory :third_task, class: Task do
@@ -21,6 +23,7 @@ FactoryBot.define do
     deadline { '2019-05-10'}
     status {'着手中'}
     priority {'2'}
+    user_id{'28'}
   end
 end
 
