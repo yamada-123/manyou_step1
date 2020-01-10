@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
-  
+  before_action :require_login!
   def index
     #@articles = Kaminari.paginate_array(@tasks).page(params[:page]).per(3)
     # if params[:page] == "1"
@@ -35,9 +35,11 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
+    #@task = Task.new(task_params)
+    #@task.user_id = current_user.id
+    @task = current_user.tasks.build(task_params)
+    #binding.pry
     if @task.save
-
     redirect_to tasks_path, notice: "タスクを登録しました"
     else
     render :new
