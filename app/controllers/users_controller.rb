@@ -9,7 +9,10 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      redirect_to user_path(@user.id)
+      #redirect_to user_path(@user.id)
+      log_in @user
+      binding.pry
+      redirect_to @user
     else
       render 'new'
     end
@@ -17,6 +20,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    binding.pry
     if @user.id != current_user.id
       #binding.pry
       redirect_to user_path(current_user.id), notice: "他人のプロフィールなので閲覧できません"

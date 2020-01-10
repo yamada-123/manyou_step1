@@ -42,7 +42,6 @@ RSpec.describe 'タスク管理機能', type: :system do
     context 'タイトルが空および、状態が未着手で検索ボタンを押した場合' do
       it '状態が未着手のデータだけ表示されているようにすること' do
         visit tasks_path
-        binding.pry
         task_title = "Factoryで作ったタイトル1"
         task_content = "Factoryで作ったコンテント1"
         task_deadline = "2019-07-10"

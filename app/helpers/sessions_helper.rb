@@ -6,4 +6,9 @@ module SessionsHelper
   def logged_in? #ユーザーがログインしていればtrueを返す
     current_user.present?
   end
+
+  def log_in(user)   
+    binding.pry                                               # 引数(ユーザ)でログイン
+    session[:user_id] = user.id
+  end
 end

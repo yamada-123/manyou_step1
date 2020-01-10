@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   def require_login!
     if current_user == nil
       #binding.pry
-      redirect_to new_user_path
+      redirect_to new_session_path
     end
   end
 
