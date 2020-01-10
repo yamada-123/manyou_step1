@@ -13,6 +13,8 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'kaminari'
+gem 'bcrypt','3.1.11'
+
 
 group :development, :test do
   # gem 'rspec-rails', '~> 4.0'
@@ -36,6 +38,7 @@ group :test do
   gem 'webdrivers'
   gem 'selenium-webdriver'
   gem 'chromedriver-helper'
+  gem 'database_cleaner'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
