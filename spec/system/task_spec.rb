@@ -1,52 +1,93 @@
 require 'rails_helper'
 
 RSpec.describe 'タスク管理機能', type: :system do
-  before do
-    @task = FactoryBot.create(:task)
-    @task2 = FactoryBot.create(:second_task)
-    @task3 = FactoryBot.create(:third_task)
-  end
- 
+
    describe 'タスク一覧画面' do   
     context 'タスクを作成した場合' do
       it '作成済みのタスクが表示されること'  do
+        @user = FactoryBot.create(:user)
+        @user2 = FactoryBot.create(:second_user)
+        save_and_open_page
+        visit new_session_path
+        #user1でログイン
+        fill_in 'session_email', with:"yamada1@gmail.com"
+        fill_in 'session_password', with:"123456"
+        #binding.pry
+        click_on 'Log in'
+        @task = FactoryBot.create(:task, user:@user)
+        save_and_open_page
+        @task2 = FactoryBot.create(:second_task, user: @user)
+        save_and_open_page
         visit tasks_path
+        #binding.pry
         expect(page).to have_content @task.title
         #binding.pry
       end
     end
     context '複数のタスクを作成した場合' do
       it 'タスクが作成日時の降順に並んでいること' do
-        #new_task = FactoryBot.create(:task, title: 'new_task')
+        @user = FactoryBot.create(:user)
+        @user2 = FactoryBot.create(:second_user)
+        save_and_open_page
+        visit new_session_path
+
+        fill_in 'session_email', with:"yamada1@gmail.com"
+        fill_in 'session_password', with: "123456"
+        click_on 'Log in'
+        @task = FactoryBot.create(:task, user: @user)
+        save_and_open_page
+        @task2 = FactoryBot.create(:second_task, user: @user)
+        save_and_open_page
         visit tasks_path
         #binding.pry
-        #binding.pry
         task_list = all('.task_row')  #タスク一覧を配列として取得するためview側でidを振っておく
+        #binding.pry
         #indexviewにあるクラス
         save_and_open_page
-        expect(task_list[1]).to have_content @task2.title
-        expect(task_list[2]).to have_content @task.title
+        #binding.pry
+        expect(task_list[0]).to have_content @task2.title
+        expect(task_list[1]).to have_content @task.title
       end
     end
     context '終了期限のソートボタンを押した場合' do
       it '終了期限が降順に並んでいること' do
+        @user = FactoryBot.create(:user)
+        @user2 = FactoryBot.create(:second_user)
+        save_and_open_page
+        visit new_session_path
+        fill_in 'session_email', with:"yamada1@gmail.com"
+        fill_in 'session_password',with:"123456"
+        click_on 'Log in'
+        @task = FactoryBot.create(:task, user: @user)
+        @task2 = FactoryBot.create(:second_task, user: @user)
+        save_and_open_page
         visit tasks_path
         #binding.pry
         click_on '終了期限でソートする'
         page.find("#task-show-#{@task.id}").click
-        #binding.pry
+        # binding.pry
         expect(page).to have_content @task.title && @task.content && @task.deadline
         expect(page).not_to have_content @task2.title && @task2.content && @task2.deadline
       end
     end
     context 'タイトルが空および、状態が未着手で検索ボタンを押した場合' do
       it '状態が未着手のデータだけ表示されているようにすること' do
+        @user = FactoryBot.create(:user)
+        @user2 = FactoryBot.create(:second_user)
+        save_and_open_page
+        visit new_session_path
+        fill_in 'session_email', with:"yamada1@gmail.com"
+        fill_in 'session_password',with:"123456"
+        click_on 'Log in'
+        @task = FactoryBot.create(:task, user: @user)
+        @task2 = FactoryBot.create(:second_task, user: @user)
+        save_and_open_page
         visit tasks_path
         task_title = "Factoryで作ったタイトル1"
-        task_content = "Factoryで作ったコンテント1"
-        task_deadline = "2019-07-10"
+        #task_content = "Factoryで作ったコンテント1"
+        #task_deadline = "2019-07-10"
         task_status = "未着手"
-        priority = "1"
+        #priority = "1"
         #binding.pry
         click_on '検索'
         #binding.pry

@@ -1,0 +1,31 @@
+<h1>ユーザー詳細画面</h1>
+<% if current_user.try(:admin?) %>
+<p>ユーザの名前: <%= @user.name %></p>
+<p>email: <%= @user.email %></p>
+
+<p>作成したタスク</p>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>タイトル</th>
+    <th>内容</th>
+    <th>締め切り</th>
+    <th>ステータス</th>
+    <th>優先度</th>
+  </tr>
+<% @user.tasks.each do |task| %>
+<tr>
+  <td><%= task.id %></td>
+  <td><%= task.title %></td>
+  <td><%= task.content %></td>
+  <td><%= task.deadline %></td>
+  <td><%= task.status %></td>
+  <td><%= display_priority(task.priority) %></td>
+</tr>
+<% end %>
+</table>
+<br>
+
+<%= link_to '新しくユーザーを追加する', new_admin_user_path %>
+<%= link_to 'ユーザー一覧に戻る', admin_users_path %>
+<% end %>
