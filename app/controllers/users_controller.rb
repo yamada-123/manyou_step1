@@ -11,7 +11,7 @@ class UsersController < ApplicationController
     if @user.save
       #redirect_to user_path(@user.id)
       log_in @user
-      binding.pry
+      # binding.pry
       redirect_to @user
     else
       render 'new'
@@ -19,8 +19,8 @@ class UsersController < ApplicationController
   end
 
   def show
+    # binding.pry
     @user = User.find(params[:id])
-    binding.pry
     if @user.id != current_user.id
       #binding.pry
       redirect_to user_path(current_user.id), notice: "他人のプロフィールなので閲覧できません"
@@ -30,6 +30,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :admin)
   end
 end
