@@ -102,11 +102,13 @@ RSpec.describe 'User機能', type: :system do
         fill_in 'user_email',with: 'heimin@gmail.com'
         fill_in 'user_password',with: '123456'
         fill_in 'user_password_confirmation',with: '123456'
-        fill_in 'user_admin',with: ''
+        select 'false'
+        #fill_in 'user_admin',with: 'false'
+        #binding.pry
         click_on 'Add user'
         visit admin_users_path
         save_and_open_page
-        binding.pry
+        #binding.pry
         expect(page).to have_content '平民'
       end
     end
@@ -137,7 +139,7 @@ RSpec.describe 'User機能', type: :system do
         fill_in 'session_email', with:"yamada2@gmail.com"
         fill_in 'session_password', with:"123456"
         click_on 'Log in'
-        @task = FactoryBot.create(:task, user: @user)
+        @task = FactoryBot.create(:task, user: @user2)
         save_and_open_page
         click_on 'Logout'
         visit new_session_path
@@ -145,9 +147,10 @@ RSpec.describe 'User機能', type: :system do
         fill_in 'session_password', with:'123456'
         click_on 'Log in'
         visit admin_users_path
-        click_on 'ユーザー情報を削除'
-        save_and_open_page
         #binding.pry
+        tds = page.all('td')
+        tds[15].click
+        save_and_open_page
         expect(page).not_to have_content '@user2.name'
         #binding.pry
         visit tasks_path

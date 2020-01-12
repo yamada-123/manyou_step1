@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  before_destroy :destroy_way
+  before_destroy :least_one
   before_validation { email.downcase! }
   has_many :tasks,dependent: :destroy
   validates :name,  presence: true, length: { maximum: 30 }
@@ -10,10 +10,16 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 6 }
   
   private
-  def destroy_way
-    unless User.where(admin: 'true').count >= 2 || self.admin == false
-      throw(:abort) 
-    end
-  end
+   def least_one
+     unless User.where(admin: 'true').count >= 2 || self.admin == false
+       throw(:abort) 
+     end
+   end
+
+  # def least_one
+  #   if User.where(admin: 'true').count <= 1 || self.admin == true
+  #     throw :abort
+  #   end
+  # end
 
 end
