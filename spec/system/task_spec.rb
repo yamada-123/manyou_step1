@@ -97,11 +97,25 @@ RSpec.describe 'タスク管理機能', type: :system do
     end
     context '優先度を高い順にソートするボタンを押した場合' do
       it '上から高→中→低の順に表示されるようにすること' do
+        @user = FactoryBot.create(:user)
+        @user2 = FactoryBot.create(:second_user)
+        save_and_open_page
+        visit new_session_path
+        fill_in 'session_email', with:"yamada1@gmail.com"
+        fill_in 'session_password',with:"123456"
+        click_on 'Log in'
+        @task = FactoryBot.create(:task, user: @user)
+        @task2 = FactoryBot.create(:second_task, user: @user)
+        @task3 = FactoryBot.create(:third_task, user: @user)
+        save_and_open_page
         visit tasks_path
         #binding.pry
         click_on '優先度を高い順にソートする'
+        task_list = all('.task_row')
         #binding.pry
-        
+        expect(task_list[0]).to have_content @task2.title
+        expect(task_list[1]).to have_content @task3.title
+        expect(task_list[2]).to have_content @task.title
       end
     end
   end
@@ -109,12 +123,19 @@ RSpec.describe 'タスク管理機能', type: :system do
   describe 'タスク登録画面' do
     context '必要項目を入力して、createボタンを押した場合' do
       it 'データが保存されること' do
+        @user = FactoryBot.create(:user)
+        @user2 = FactoryBot.create(:second_user)
+        save_and_open_page
+        visit new_session_path
+        fill_in 'session_email', with:"yamada1@gmail.com"
+        fill_in 'session_password',with:"123456"
+        click_on 'Log in'
       visit new_task_path
-      task = FactoryBot.create(:task, title: 'task-title010103', content: 'task-title010102')
+      @task = FactoryBot.create(:task, user: @user)
       click_on '登録する'
-      visit task_path(task.id)
+      visit task_path(@task.id)
 
-      expect(page).to have_content task.title && task.content
+      expect(page).to have_content @task.title && @task.content
       end
     end
   end
@@ -122,6 +143,17 @@ RSpec.describe 'タスク管理機能', type: :system do
   describe 'タスク詳細画面' do
     context '任意のタスク詳細画面に遷移した場合' do
       it '該当タスクの内容が表示されたページに遷移すること' do
+        @user = FactoryBot.create(:user)
+        @user2 = FactoryBot.create(:second_user)
+        save_and_open_page
+        visit new_session_path
+        fill_in 'session_email', with:"yamada1@gmail.com"
+        fill_in 'session_password',with:"123456"
+        click_on 'Log in'
+        @task = FactoryBot.create(:task, user: @user)
+        @task2 = FactoryBot.create(:second_task, user: @user)
+        @task3 = FactoryBot.create(:third_task, user: @user)
+        save_and_open_page
         visit tasks_path
        # binding.pry
         # click_on '詳細を確認する'

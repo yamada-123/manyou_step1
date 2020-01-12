@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe 'User機能', type: :system do
-  before do
+  #before do
     #binding.pry
     #@user = FactoryBot.create(:user)
     # #binding.pry
     # @user2 = FactoryBot.create(:second_user)
     # @user3 = FactoryBot.create(:third_user)
-  end
+  #end
 
   describe 'ユーザーテスト' do
     context 'ログインしていない時に、new_task_pathに遷移しようとした場合' do
@@ -88,5 +88,73 @@ RSpec.describe 'User機能', type: :system do
       end
     end
   end
-
+  describe 'ユーザーテスト' do
+    context '管理者ユーザー追加画面でAdd Userを押した場合' do
+      it '新しいユーザーが追加されていること' do
+        @user = FactoryBot.create(:user)
+        save_and_open_page
+        visit new_session_path
+        fill_in 'session_email', with:"yamada1@gmail.com"
+        fill_in 'session_password', with:"123456"
+        click_on 'Log in'
+        visit new_admin_user_path
+        fill_in 'user_name', with:'平民'
+        fill_in 'user_email',with: 'heimin@gmail.com'
+        fill_in 'user_password',with: '123456'
+        fill_in 'user_password_confirmation',with: '123456'
+        fill_in 'user_admin',with: ''
+        click_on 'Add user'
+        visit admin_users_path
+        save_and_open_page
+        binding.pry
+        expect(page).to have_content '平民'
+      end
+    end
+  end
+  describe 'ユーザーテスト' do
+    context '管理権限を持っていないユーザーが、new_admin_users_pathにvisitした場合' do
+      it 'フォーム入力が表示されていないようにすること' do
+        @user2 = FactoryBot.create(:user)
+        save_and_open_page
+        visit new_session_path
+        fill_in 'session_email', with:"yamada2@gmail.com"
+        fill_in 'session_password', with:"123456"
+        click_on 'Log in'
+        visit new_admin_user_path
+        #binding.pry
+        expect(page).not_to have_content  'user_name' && 'user_email' && 'user_password' && 'user_password_confirmation' && 'user_admin'
+      end
+    end
+  end
+  describe 'ユーザーテスト' do
+    context '管理者がタスクを抱えているユーザーを削除した場合' do
+      it 'タスクも一緒に削除されていることを確認する' do
+        @user = FactoryBot.create(:user)
+        @user2 = FactoryBot.create(:second_user)
+        save_and_open_page
+        visit new_session_path
+        save_and_open_page
+        fill_in 'session_email', with:"yamada2@gmail.com"
+        fill_in 'session_password', with:"123456"
+        click_on 'Log in'
+        @task = FactoryBot.create(:task, user: @user)
+        save_and_open_page
+        click_on 'Logout'
+        visit new_session_path
+        fill_in 'session_email', with:"yamada1@gmail.com"
+        fill_in 'session_password', with:'123456'
+        click_on 'Log in'
+        visit admin_users_path
+        click_on 'ユーザー情報を削除'
+        save_and_open_page
+        #binding.pry
+        expect(page).not_to have_content '@user2.name'
+        #binding.pry
+        visit tasks_path
+        #binding.pry
+        expect(page).not_to have_content '@task.title'
+      end
+    end
+  end
+        
 end
