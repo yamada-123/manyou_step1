@@ -1,5 +1,5 @@
-<h1>ユーザー詳細画面</h1>
 <% if current_user.try(:admin?) %>
+<h1>ユーザー詳細画面</h1>
 <p>ユーザの名前: <%= @user.name %></p>
 <p>email: <%= @user.email %></p>
 
@@ -28,4 +28,6 @@
 
 <%= link_to '新しくユーザーを追加する', new_admin_user_path %>
 <%= link_to 'ユーザー一覧に戻る', admin_users_path %>
+<% else %>
+<h1>管理者以外は見れないエラーメッセージです</h1>
 <% end %>
