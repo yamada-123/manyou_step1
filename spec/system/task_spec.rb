@@ -155,9 +155,11 @@ RSpec.describe 'タスク管理機能', type: :system do
         @task3 = FactoryBot.create(:third_task, user: @user)
         save_and_open_page
         visit tasks_path
-       # binding.pry
+        #binding.pry
         # click_on '詳細を確認する'
-        page.find("#task-show-#{@task.id}").click
+        tds = page.all('td')
+        tds[24].click
+        #page.find("#task-show-#{@task.id}").click(こっちもok)
         # visit  task_path(@task.id)
         expect(page).to have_content @task.title && @task.content
         expect(page).not_to have_content @task2.title && @task2.content
