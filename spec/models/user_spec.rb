@@ -11,7 +11,7 @@ RSpec.describe User, type: :model do
         #binding.pry
         User.destroy(2)
         
-        #binding.pryy
+        #binding.pr
         #expect { @user2.destroy }.to change { @task.count }.by(-1)
         #expect(Task.all.count).not_to be_valid
         #expect{@user2.destroy}.to change {Task.count}
