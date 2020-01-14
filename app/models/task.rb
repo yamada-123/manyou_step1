@@ -4,4 +4,7 @@ class Task < ApplicationRecord
 
   paginates_per 3
   belongs_to :user
+  has_many :middles, dependent: :destroy
+  has_many :middles_labels, through: :middles, source: :label
+  
 end

@@ -118,6 +118,33 @@ RSpec.describe 'タスク管理機能', type: :system do
         expect(task_list[2]).to have_content @task.title
       end
     end
+    context 'ラベル検索において、CSSにチェックして検索ボタンを押した場合' do
+      it 'CSSのラベルが登録されているデータだけが表示されること' do
+        @label = FactoryBot.create(:label)
+        @label2 = FactoryBot.create(:second_label)
+        @label3 = FactoryBot.create(:third_label)
+        @user = FactoryBot.create(:user)
+        @user2 = FactoryBot.create(:second_user)
+        save_and_open_page
+        visit new_session_path
+        fill_in 'session_email',with:'yamada1@gmail.com'
+        fill_in 'session_password',with:"123456"
+        click_on 'Log in'
+        @task = FactoryBot.create(:task,user: @user)
+        @task2 = FactoryBot.create(:second_task,user: @user)
+        binding.pry
+        save_and_open_page
+        @middles = Middle.where(label_id: 1).pluck(:task_id)
+        @tasks = Task.where(id: @middles)
+        #binding.pry
+        visit tasks_path
+        #binding.pry
+        check 'task_middles_label_ids_2'
+        click_on '検索'
+        binding.pry
+        expect(page).not_to have_content @task2.title
+      end
+    end
   end
 
   describe 'タスク登録画面' do

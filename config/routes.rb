@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :labels
+  resources :middles, only:[:create, :destroy]
   namespace :admin do
     get 'users/index'
     get 'users/new'

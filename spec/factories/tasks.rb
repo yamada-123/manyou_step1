@@ -5,6 +5,7 @@ FactoryBot.define do
     deadline {'2019-07-10'}
     status {'未着手'}
     priority {'1'}
+    middles_label_ids {['1','2']}
     user_id {'1'}
   end
 
