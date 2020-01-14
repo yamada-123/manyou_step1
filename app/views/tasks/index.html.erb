@@ -9,6 +9,13 @@
   <%= f.label :status_search, "状態検索" %>
   <%= f.select :status, options_for_select([["",""],["未着手","未着手"],["着手中", "着手中"],["完了","完了"]])  %>
 
+  <%= f.label :label_search, "ラベル検索" %>
+ <% Label.all.each do |label| %>
+      <%= f.check_box :middles_label_ids, {multiple: true, checked: label[:checked],
+                                    disabled: label[:disabled], include_hidden: false }, label[:id] %>
+      <label class='badge badge-secondary'><%= label.classification %></label>
+    <% end %>
+
   <%= f.hidden_field :search, value: 'true' %>
   <%= submit_tag "検索" %>
   <% end %>

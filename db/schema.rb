@@ -10,10 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_11_032751) do
+ActiveRecord::Schema.define(version: 2020_01_13_064123) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "labels", force: :cascade do |t|
+    t.string "classification"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "middle_id"
+    t.index ["middle_id"], name: "index_labels_on_middle_id"
+  end
+
+  create_table "middles", force: :cascade do |t|
+    t.integer "task_id"
+    t.integer "label_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "tasks", force: :cascade do |t|
     t.string "title", null: false
@@ -24,6 +39,8 @@ ActiveRecord::Schema.define(version: 2020_01_11_032751) do
     t.string "status"
     t.string "priority"
     t.bigint "user_id"
+    t.bigint "middle_id"
+    t.index ["middle_id"], name: "index_tasks_on_middle_id"
     t.index ["priority"], name: "index_tasks_on_priority"
     t.index ["title", "content", "deadline", "status"], name: "index_tasks_on_title_and_content_and_deadline_and_status"
     t.index ["user_id"], name: "index_tasks_on_user_id"
@@ -39,5 +56,7 @@ ActiveRecord::Schema.define(version: 2020_01_11_032751) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "labels", "middles"
+  add_foreign_key "tasks", "middles"
   add_foreign_key "tasks", "users"
 end

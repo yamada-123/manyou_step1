@@ -36,5 +36,13 @@
   <%= form.select :priority ,options_for_select([["高",3],["中",2],["低",1],["",0]])%>
   </div>
 
+<div class="field">
+     <% Label.all.each do |label| %>
+      <%= form.check_box :middles_label_ids, {multiple: true, checked: label[:checked],
+                                    disabled: label[:disabled], include_hidden: false }, label[:id] %>
+      <label class='badge badge-secondary'><%= label.classification %></label>
+    <% end %>
+  </div>
+<br>
   <%= form.submit %>
 <% end %>

@@ -21,7 +21,12 @@ class TasksController < ApplicationController
       end
       if params[:task]
         if params[:task][:search]#検索フォーム or 検索フーム以外のリンクから送られてきたものなのかの判断をする。
-          @tasks = Task.where(['title LIKE ? AND status LIKE ?', "%#{params[:task][:title]}%", "%#{params[:task][:status]}%"] ).page(params[:page])
+          @middles = Middle.where(label_id: params[:task][:middles_label_ids]).pluck(:task_id) 
+          #middlesテーブルにあるlabel_idを基にmiddlesテーブルのtask_idを取得する。
+          #binding.pry
+          @tasks = Task.where(id: @middles)
+          #id: task_idからtask情報を取得する。これで、ラベルによる検索を行う
+          @tasks = @tasks.where(['title LIKE ? AND status LIKE ?', "%#{params[:task][:title]}%", "%#{params[:task][:status]}%"] ).page(params[:page])
         end
       end
 
@@ -32,6 +37,7 @@ class TasksController < ApplicationController
 
   def new
     @task = Task.new
+    #@label = Label.new
   end
 
   def create
@@ -40,6 +46,7 @@ class TasksController < ApplicationController
     @task = current_user.tasks.build(task_params)
     #binding.pry
     if @task.save
+    #binding.pry
     redirect_to tasks_path, notice: "タスクを登録しました"
     else
     render :new
@@ -72,7 +79,7 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:title, :content, :deadline, :status, :priority)
+    params.require(:task).permit(:title, :content, :deadline, :status, :priority, middles_label_ids: [])
   end
 
   def set_task
