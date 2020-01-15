@@ -4,3 +4,8 @@
 <p>締め切り: <%= @task.deadline %></p>
 <p>ステータス: <%= @task.status%></p>
 <P>優先度: <%= display_priority(@task.priority)%></p>
+<p>ラベル <br>
+<% @task.middles_labels.all.each do |label| %>
+  <%= label.classification %>
+  <br>
+  <% end %> </p>

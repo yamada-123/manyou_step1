@@ -5,7 +5,6 @@ FactoryBot.define do
     deadline {'2019-07-10'}
     status {'未着手'}
     priority {'1'}
-    middles_label_ids {['1','2']}
     user_id {'1'}
   end
 
@@ -24,6 +23,16 @@ FactoryBot.define do
     deadline { '2019-05-10'}
     status {'着手中'}
     priority {'2'}
+    user_id{'2'}
+  end
+
+  factory :fourth_task, class: Task do
+    title { 'Factoryで作ったタイトル4'}
+    content { 'Factoryで作ったコンテント4'}
+    deadline { '2019-05-10'}
+    status {'着手中'}
+    priority {'2'}
+    middles_label_ids {['1','2']}
     user_id{'2'}
   end
 end
