@@ -22,7 +22,7 @@ class TasksController < ApplicationController
       if params[:task]
         if params[:task][:search]#検索フォーム or 検索フーム以外のリンクから送られてきたものなのかの判断をする。
           @middles = Middle.where(label_id: params[:task][:middles_label_ids]).pluck(:task_id) 
-          #middlesテーブルにあるlabel_idを基にmiddlesテーブルのtask_idを取得する。
+          #middlesテーブルにあるlabel_idを基にmiddlesテーブルのtask_idを取得する
           if @middles == []
             #binding.pry
             @tasks = Task.all.order('deadline desc').page(params[:page])
