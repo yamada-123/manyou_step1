@@ -79,6 +79,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         fill_in 'session_email', with:"yamada1@gmail.com"
         fill_in 'session_password',with:"123456"
         click_on 'Log in'
+        @label = FactoryBot.create(:label)
         @task = FactoryBot.create(:task, user: @user)
         @task2 = FactoryBot.create(:second_task, user: @user)
         save_and_open_page
@@ -109,10 +110,11 @@ RSpec.describe 'タスク管理機能', type: :system do
         @task3 = FactoryBot.create(:third_task, user: @user)
         save_and_open_page
         visit tasks_path
-        #binding.pry
         click_on '優先度を高い順にソートする'
+        sleep 3
         task_list = all('.task_row')
         #binding.pry
+        
         expect(task_list[0]).to have_content @task2.title
         expect(task_list[1]).to have_content @task3.title
         expect(task_list[2]).to have_content @task.title
@@ -130,9 +132,20 @@ RSpec.describe 'タスク管理機能', type: :system do
         fill_in 'session_email',with:'yamada1@gmail.com'
         fill_in 'session_password',with:"123456"
         click_on 'Log in'
-        @task = FactoryBot.create(:task,user: @user)
+        #binding.pry
+        #middles_label_ids = [@label.id,@label2.id] 
+        @task = FactoryBot.create(:task, 
+          {
+            user: @user, 
+            middles_label_ids: [@label.id,@label2.id]
+          }
+        )
+        # @label = @label.id
+        # @label2 = @label2.id
+    
+        #binding.pry
         @task2 = FactoryBot.create(:second_task,user: @user)
-        binding.pry
+        # 
         save_and_open_page
         @middles = Middle.where(label_id: 1).pluck(:task_id)
         @tasks = Task.where(id: @middles)
@@ -141,7 +154,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         #binding.pry
         check 'task_middles_label_ids_2'
         click_on '検索'
-        binding.pry
+        #binding.pry
         expect(page).not_to have_content @task2.title
       end
     end
