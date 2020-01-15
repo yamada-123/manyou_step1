@@ -24,7 +24,7 @@ class TasksController < ApplicationController
           @middles = Middle.where(label_id: params[:task][:middles_label_ids]).pluck(:task_id) 
           #middlesテーブルにあるlabel_idを基にmiddlesテーブルのtask_idを取得する
           if @middles == []
-            binding.pry
+            #binding.pry
             @tasks = Task.all.order(created_at: :desc).page(params[:page])
           else
           @tasks = Task.where(id: @middles)
